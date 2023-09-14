@@ -8,17 +8,27 @@
 import SwiftUI
 
 struct ContentView: View {
-    var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+  @State private var currentTab = "Expenses"
+  var body: some View {
+    TabView(selection: $currentTab,
+            content:  {
+      ExpensesView()
+        .tabItem {
+          Image(systemName: "creditcard.fill")
+          Text("Expenses")
         }
-        .padding()
-    }
+        .tag("Expenses")
+      
+      CategoriesView()
+        .tabItem {
+          Image(systemName: "list.clipboard.fill")
+          Text("Categories")
+        }
+        .tag("Categories")
+    })
+  }
 }
 
 #Preview {
-    ContentView()
+  ContentView()
 }
