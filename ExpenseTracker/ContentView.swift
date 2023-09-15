@@ -12,7 +12,7 @@ struct ContentView: View {
   var body: some View {
     TabView(selection: $currentTab,
             content:  {
-      ExpensesView()
+      ExpensesView(currentTab: $currentTab)
         .tabItem {
           Image(systemName: "creditcard.fill")
           Text("Expenses")

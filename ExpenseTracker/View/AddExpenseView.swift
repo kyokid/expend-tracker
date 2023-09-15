@@ -52,14 +52,23 @@ struct AddExpenseView: View {
             
             Spacer()
             
-            Picker("", selection: $category) {
+            Menu {
               ForEach(allCategories) { category in
-                Text(category.categoryName)
-                  .tag(category)
+                Button(category.categoryName) {
+                  self.category = category
+                }
+              }
+              
+              Button("None") {
+                self.category = nil
+              }
+            } label: {
+              if let categoryName = category?.categoryName {
+                Text(categoryName)
+              } else {
+                Text("None")
               }
             }
-            .pickerStyle(.menu)
-            .labelsHidden()
           }
         }
       }

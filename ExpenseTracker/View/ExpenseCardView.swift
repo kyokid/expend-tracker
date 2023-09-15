@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ExpenseCardView: View {
   @Bindable var expense: Expense
+  var displayTag = true
   var body: some View {
     HStack {
       VStack(alignment: .leading, content: {
@@ -17,6 +18,15 @@ struct ExpenseCardView: View {
         Text(expense.subtitle)
           .font(.caption)
           .foregroundStyle(.gray)
+        
+        if let categoryName = expense.category?.categoryName, displayTag {
+          Text(categoryName)
+            .font(.caption2)
+            .foregroundStyle(.white)
+            .padding(.horizontal, 10)
+            .padding(.vertical, 4)
+            .background(.red.gradient, in: .capsule)
+        }
       })
       .lineLimit(1)
       

@@ -15,6 +15,7 @@ struct ExpensesView: View {
   
   @State private var groupedExpenses: [GroupedExpense] = []
   @State private var addExpense = false
+  @Binding var currentTab: String
   var body: some View {
     NavigationStack {
       List {
@@ -64,7 +65,7 @@ struct ExpensesView: View {
       })
     }
     .onChange(of: allExpenses, initial: true) { oldValue, newValue in
-      if newValue.count > oldValue.count || groupedExpenses.isEmpty {
+      if newValue.count > oldValue.count || groupedExpenses.isEmpty || currentTab == "Categories" {
         createGroupExpenses(newValue)
       }
     }
@@ -96,5 +97,5 @@ struct ExpensesView: View {
 }
 
 #Preview {
-  ExpensesView()
+  ContentView()
 }
