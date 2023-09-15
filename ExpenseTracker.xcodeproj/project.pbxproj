@@ -17,6 +17,7 @@
 		4A6CFE842AB375A100E15381 /* CategoriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6CFE832AB375A100E15381 /* CategoriesView.swift */; };
 		4A6CFE862AB3781400E15381 /* GroupedExpense.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6CFE852AB3781400E15381 /* GroupedExpense.swift */; };
 		4A6CFE882AB37EA300E15381 /* AddExpenseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6CFE872AB37EA300E15381 /* AddExpenseView.swift */; };
+		4A6CFE8A2AB41CFC00E15381 /* ExpenseCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6CFE892AB41CFC00E15381 /* ExpenseCardView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,7 @@
 		4A6CFE832AB375A100E15381 /* CategoriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesView.swift; sourceTree = "<group>"; };
 		4A6CFE852AB3781400E15381 /* GroupedExpense.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupedExpense.swift; sourceTree = "<group>"; };
 		4A6CFE872AB37EA300E15381 /* AddExpenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExpenseView.swift; sourceTree = "<group>"; };
+		4A6CFE892AB41CFC00E15381 /* ExpenseCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseCardView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +86,7 @@
 		4A6CFE7B2AB3732F00E15381 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				4A6CFE852AB3781400E15381 /* GroupedExpense.swift */,
 				4A6CFE7C2AB3734200E15381 /* Expense.swift */,
 				4A6CFE7E2AB3739900E15381 /* Category.swift */,
 			);
@@ -95,8 +98,8 @@
 			children = (
 				4A6CFE812AB3751900E15381 /* ExpensesView.swift */,
 				4A6CFE832AB375A100E15381 /* CategoriesView.swift */,
-				4A6CFE852AB3781400E15381 /* GroupedExpense.swift */,
 				4A6CFE872AB37EA300E15381 /* AddExpenseView.swift */,
+				4A6CFE892AB41CFC00E15381 /* ExpenseCardView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -175,6 +178,7 @@
 				4A6CFE7D2AB3734200E15381 /* Expense.swift in Sources */,
 				4A6CFE862AB3781400E15381 /* GroupedExpense.swift in Sources */,
 				4A6CFE882AB37EA300E15381 /* AddExpenseView.swift in Sources */,
+				4A6CFE8A2AB41CFC00E15381 /* ExpenseCardView.swift in Sources */,
 				4A6CFE842AB375A100E15381 /* CategoriesView.swift in Sources */,
 				4A6CFE702AB3716D00E15381 /* ContentView.swift in Sources */,
 				4A6CFE6E2AB3716D00E15381 /* ExpenseTrackerApp.swift in Sources */,

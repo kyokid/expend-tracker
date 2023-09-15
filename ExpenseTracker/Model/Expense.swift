@@ -23,4 +23,11 @@ class Expense {
     self.date = date
     self.category = category
   }
+  
+//  @Transient
+  var currencyString: String {
+    let formatter = NumberFormatter()
+    formatter.numberStyle = .currency
+    return formatter.string(for: amount) ?? ""
+  }
 }

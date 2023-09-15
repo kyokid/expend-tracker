@@ -25,19 +25,20 @@ struct AddExpenseView: View {
       List {
         Section("Title") {
           TextField("Magic keyboard", text: $title)
-        }
-        
-        Section("Amount spent") {
-          TextField("0.0", value: $amount, format: .currency(code: "US"))
+            .autocorrectionDisabled()
         }
         
         Section("Description") {
-          HStack(spacing: 4) {
-            Text("$")
-              .fontWeight(.semibold)
-            TextField("Bought a keyboard at Apple Store", text: $subtitle)
-          }
+          TextField("Bought a keyboard at Apple Store", text: $subtitle)
+            .autocorrectionDisabled()
         }
+        
+        Section("Amount spent") {
+          TextField("0.0", value: $amount, formatter: formatter)
+            .keyboardType(.decimalPad)
+        }
+        
+        
         
         Section("Date") {
           DatePicker("", selection: $date, displayedComponents: [.date])
@@ -63,6 +64,7 @@ struct AddExpenseView: View {
         }
       }
       .navigationTitle("Add Expense View")
+      .toolbarTitleDisplayMode(.inline)
       .toolbar {
         ToolbarItem(placement: .topBarLeading) {
           Button("Cancel") {
@@ -73,13 +75,28 @@ struct AddExpenseView: View {
         
         ToolbarItem(placement: .topBarTrailing) {
           Button("Add", action: addExpense)
+            .disabled(isAddButtonDisabled)
         }
       }
     }
   }
   
+  var isAddButtonDisabled: Bool {
+    title.isEmpty || subtitle.isEmpty || amount == .zero
+  }
+  
   func addExpense() {
+    let expense = Expense(title: title, subtitle: subtitle, amount: amount, date: date, category: category)
+    context.insert(expense)
     
+    dismiss()
+  }
+  
+  var formatter: NumberFormatter {
+    let formatter = NumberFormatter()
+    formatter.numberStyle = .decimal
+    formatter.maximumFractionDigits = 2
+    return formatter
   }
   
 }

@@ -11,13 +11,34 @@ import SwiftData
 struct ExpensesView: View {
   @Query(sort: [SortDescriptor(\Expense.date, order: .reverse)], animation: .snappy)
   private var allExpenses: [Expense]
+  @Environment(\.modelContext) private var context
   
   @State private var groupedExpenses: [GroupedExpense] = []
   @State private var addExpense = false
   var body: some View {
     NavigationStack {
       List {
-        
+        ForEach($groupedExpenses) { $group in
+          Section(group.groupTitle) {
+            ForEach(group.expenses) { expense in
+              ExpenseCardView(expense: expense)
+                .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                  Button {
+                    context.delete(expense)
+                    withAnimation {
+                      group.expenses.removeAll(where: { $0.id == expense.id })
+                      if group.expenses.isEmpty {
+                        groupedExpenses.removeAll(where: {$0.id == group.id })
+                      }
+                    }
+                  } label: {
+                    Image(systemName: "trash")
+                  }
+                  .tint(.red)
+                }
+            }
+          }
+        }
       }
       .navigationTitle("Expenses")
       .overlay {
@@ -39,10 +60,11 @@ struct ExpensesView: View {
       }
       .sheet(isPresented: $addExpense, content: {
         AddExpenseView()
+          .interactiveDismissDisabled()
       })
     }
     .onChange(of: allExpenses, initial: true) { oldValue, newValue in
-      if groupedExpenses.isEmpty {
+      if newValue.count > oldValue.count || groupedExpenses.isEmpty {
         createGroupExpenses(newValue)
       }
     }
@@ -66,7 +88,7 @@ struct ExpensesView: View {
       await MainActor.run {
         groupedExpenses = sortedDict.compactMap { dict in
           let date = Calendar.current.date(from: dict.key) ?? .init()
-          return .init(date: date, expense: dict.value)
+          return .init(date: date, expenses: dict.value)
         }
       }
     }
