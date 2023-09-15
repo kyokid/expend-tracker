@@ -14,7 +14,10 @@ struct ExpensesView: View {
   @Environment(\.modelContext) private var context
   
   @State private var groupedExpenses: [GroupedExpense] = []
+  @State private var originalGroupedExpenses: [GroupedExpense] = []
   @State private var addExpense = false
+  @State private var searchText = ""
+  
   @Binding var currentTab: String
   var body: some View {
     NavigationStack {
@@ -42,6 +45,7 @@ struct ExpensesView: View {
         }
       }
       .navigationTitle("Expenses")
+      .searchable(text: $searchText, placement: .navigationBarDrawer, prompt: Text("Search"))
       .overlay {
         if allExpenses.isEmpty || groupedExpenses.isEmpty {
           ContentUnavailableView {
@@ -64,9 +68,34 @@ struct ExpensesView: View {
           .interactiveDismissDisabled()
       })
     }
+    .onChange(of: searchText, initial: false) { oldValue, newValue in
+      if !newValue.isEmpty {
+        filteringExpenses(newValue)
+      } else {
+        groupedExpenses = originalGroupedExpenses
+      }
+    }
     .onChange(of: allExpenses, initial: true) { oldValue, newValue in
       if newValue.count > oldValue.count || groupedExpenses.isEmpty || currentTab == "Categories" {
         createGroupExpenses(newValue)
+      }
+    }
+  }
+  
+  func filteringExpenses(_ text: String) {
+    Task.detached(priority: .high) {
+      let query = text.lowercased()
+      let filteredExpenses = await originalGroupedExpenses.compactMap { group -> GroupedExpense? in
+        let expenses = group.expenses.filter { $0.title.lowercased().contains(query)}
+        if expenses.isEmpty {
+          return nil
+        }
+        return .init(date: group.date, expenses: expenses)
+        
+      }
+      
+      await MainActor.run {
+        groupedExpenses = filteredExpenses
       }
     }
   }
@@ -91,6 +120,7 @@ struct ExpensesView: View {
           let date = Calendar.current.date(from: dict.key) ?? .init()
           return .init(date: date, expenses: dict.value)
         }
+        originalGroupedExpenses = groupedExpenses
       }
     }
   }
